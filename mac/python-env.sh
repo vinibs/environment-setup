@@ -19,6 +19,10 @@ if ! grep -q "pyenv" "$ZSH_PROFILE"; then
     echo '\n' >> $ZSH_PROFILE
 fi
 
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
 source $ZSH_PROFILE
 
 
