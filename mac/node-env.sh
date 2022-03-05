@@ -13,10 +13,10 @@ echo "\nSetup NVM to work with zsh..."
 ZSH_PROFILE=~/.zshrc
 
 if ! grep -q "NVM_DIR" "$ZSH_PROFILE"; then
-    echo '\n' >> $ZSH_PROFILE
     echo '# NVM settings' >> $ZSH_PROFILE
     echo 'export NVM_DIR=~/.nvm' >> $ZSH_PROFILE
     echo 'source $(brew --prefix nvm)/nvm.sh' >> $ZSH_PROFILE
+    echo '\n' >> $ZSH_PROFILE
 fi
 
 source $ZSH_PROFILE

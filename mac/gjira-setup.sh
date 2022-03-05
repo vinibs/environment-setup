@@ -105,6 +105,7 @@ if ! grep -q "jiraserver" "$ZSH_PROFILE"; then
     echo "export jiraserver=\"https://$COMPANY_DOMAIN.atlassian.net\"" >> $ZSH_PROFILE
     echo "export jirauser=\"$JIRA_EMAIL\"" >> $ZSH_PROFILE
     echo "export jiratoken=\"$JIRA_TOKEN\"" >> $ZSH_PROFILE
+    echo "\n" >> $ZSH_PROFILE
 fi
 
 
