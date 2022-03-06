@@ -4,7 +4,7 @@ Shortcuts to setup different development environments.
 To make the transition from one machine to another or the setup after formatting, this repository have shell scripts for many different environments that may be needed in a developer day-to-day.
 
 ## Limitations
-Currently, this repository only has scripts for setting up the environments in a **macOS** system, tested only on Intel machines at the moment.
+Currently, this repository only has scripts for setting up the environments in a **macOS** system. All scripts were tested on Intel machines and the ones for Node, Python and Gjira were currently also tested on M1 machines.
 
 ## Requirements
 - [Homebrew](https://brew.sh/)
