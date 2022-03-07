@@ -19,7 +19,7 @@ m1-terraform-provider-helper activate &> /dev/null
 m1-terraform-provider-helper install hashicorp/template -v 2.2.0 &> /dev/null
 
 echo "\nExtracting compiled checksum..."
-TERRAFORM_SAMPLE_DIR=./terraform
+TERRAFORM_SAMPLE_DIR=./temp_sample_terraform_project
 MAIN_FILE=main.tf
 
 mkdir $TERRAFORM_SAMPLE_DIR
