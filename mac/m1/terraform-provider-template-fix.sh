@@ -15,11 +15,8 @@ else
 fi
 
 echo "\nBuild and install terraform-provider-template"
-LOG_FILE=./install-log.txt
-touch $LOG_FILE
-m1-terraform-provider-helper activate &> $LOG_FILE
-m1-terraform-provider-helper install hashicorp/template -v 2.2.0 &> $LOG_FILE
-rm $LOG_FILE
+m1-terraform-provider-helper activate &> /dev/null
+m1-terraform-provider-helper install hashicorp/template -v 2.2.0 &> /dev/null
 
 echo "\nExtracting compiled checksum..."
 TERRAFORM_SAMPLE_DIR=./terraform
