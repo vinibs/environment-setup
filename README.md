@@ -44,4 +44,4 @@ To run any setup the steps are basically the same.
 
 Most of the scripts aren't interactive, so they will configure everything at once. The exceptions are the `shell-zsh` and the `gjira-setup`, that ask for actions to be performed outside the terminal and ask for input data, respectively.
 
-The `m1` directory is focused on storing scripts that only apply to M1 Macs. At the moment, we have only the `terraform-provider-template-fix` script, since we cannot run Terraform on Macs com ARM architecture without specific settings (in this case, locally building the provider) if the infrastructure needs providers that don't have builds for this architecture yet - as is the case of `terraform-provider-template`.
+The `m1` directory is focused on storing scripts that only apply to M1 Macs. At the moment, we have only the `terraform-provider-template-fix` script, since we cannot run Terraform on Macs with ARM architecture without specific settings (in this case, locally building the provider) if the infrastructure needs providers that don't have builds for this architecture yet - as is the case of `terraform-provider-template`.
