@@ -15,17 +15,17 @@ To run any setup the steps are basically the same.
 
 - Clone this repository
 - In a terminal, go to this repository's `/mac` folder
-    ```
+    ```sh
     $ cd [repository_path]/mac
     ```
 
 - Give the desired setup script the permission to execute
-    ```
+    ```sh
     $ chmod +x ./node-env.sh
     ```
 
 - Run the shell script
-    ```
+    ```sh
     $ ./node-env.sh
     ```
 
