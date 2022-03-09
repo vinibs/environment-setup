@@ -22,7 +22,9 @@ echo "\nExtracting compiled checksum..."
 TERRAFORM_SAMPLE_DIR=./temp_sample_terraform_project
 MAIN_FILE=main.tf
 
-mkdir $TERRAFORM_SAMPLE_DIR
+if ! [ -d "$TERRAFORM_SAMPLE_DIR" ]; then
+    mkdir $TERRAFORM_SAMPLE_DIR
+fi
 cd $TERRAFORM_SAMPLE_DIR
 
 touch $MAIN_FILE
@@ -37,12 +39,20 @@ terraform {
 }
 " >> $MAIN_FILE
 
-terraform init &> /dev/null
+INIT_LOG_FILE=terraform-init.log
+INIT_LOG_FILE_PATH=../$INIT_LOG_FILE
+if [ -f "$INIT_LOG_FILE_PATH" ]; then
+    rm -f $INIT_LOG_FILE_PATH
+fi
+
+touch $INIT_LOG_FILE_PATH
+terraform init &> $INIT_LOG_FILE_PATH
 
 LOCK_FILE=.terraform.lock.hcl
 
 if ! [ -f "$LOCK_FILE" ]; then
-    echo "\n>> \033[31mError:\033[0m could not initialize terraform's lock file. Exiting...\n" >&2
+    echo "\n>> \033[31mError:\033[0m could not initialize terraform's lock file. Exiting..." >&2
+    echo "\n\033[33mYou can check the error log for the background terraform init command in the \"$INIT_LOG_FILE\" file created on this script's directory.\033[0m\n"
     SUCCESS=false
 else
     H1_HASH=`cat $LOCK_FILE | sed -E -n 's/[ ]+"(h1:.+)",/\1/p'`
@@ -57,6 +67,7 @@ else
     ]    
     "
     SUCCESS=true
+    rm -f $INIT_LOG_FILE_PATH
 fi
 
 cd ..
