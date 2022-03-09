@@ -11,7 +11,7 @@ if brew ls --versions m1-terraform-provider-helper > /dev/null; then
     echo "M1-terraform-provider-helper already installed. Skipping instalation..."
 else
     echo "Install M1-terraform-provider-helper..."
-    brew install m1-terraform-provider-helper &> /dev/null
+    brew install kreuzwerker/taps/m1-terraform-provider-helper &> /dev/null
 fi
 
 echo "\nBuild and install terraform-provider-template"
@@ -26,6 +26,10 @@ if ! [ -d "$TERRAFORM_SAMPLE_DIR" ]; then
     mkdir $TERRAFORM_SAMPLE_DIR
 fi
 cd $TERRAFORM_SAMPLE_DIR
+
+if [ -f "$MAIN_FILE" ]; then
+    rm -f $MAIN_FILE
+fi
 
 touch $MAIN_FILE
 echo "
