@@ -43,7 +43,7 @@ LOCK_FILE=.terraform.lock.hcl
 
 if ! [ -f "$LOCK_FILE" ]; then
     echo "\n>> \033[31mError:\033[0m could not initialize terraform's lock file. Exiting...\n" >&2
-    exit 1
+    SUCCESS=false
 else
     H1_HASH=`cat $LOCK_FILE | sed -E -n 's/[ ]+"(h1:.+)",/\1/p'`
     echo "\nAdd the following hash to your project's \033[33m.terraform.lock.hcl\033[0m file under the \"hashes\" array:"
@@ -56,10 +56,15 @@ else
         \"\033[32m$H1_HASH\033[0m\",
     ]    
     "
+    SUCCESS=true
 fi
 
 cd ..
 rm -rf $TERRAFORM_SAMPLE_DIR
+
+if ! $SUCCESS; then
+    exit 1
+fi
 
 echo "\nThen, run \033[33mterraform init\033[0m on your project and it should work properly."
 echo "\n\033[32mAll done.\033[0m\n"
