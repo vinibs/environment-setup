@@ -120,4 +120,5 @@ pre-commit --version
 
 source $ZSH_PROFILE
 echo "\n\033[32mAll done.\033[0m"
-echo "\n\033[33mIf you happen to have issues related to markupsafe library while making a commit, check out the following Slack message to get a palliative solution: https://cheesecake.slack.com/archives/C03JDJ39V/p1645211881902949\033[0m"
+echo "\n\033[33mIf you happen to have issues related to \033[31mmarkupsafe\033[33m library while making a commit, run the \033[32mgjira-dependency-fix.sh\033[33m script to get a palliative solution.\033[0m"
+echo "\033[33mYou can also check out the following Slack message that describes the step-by-step for this solution: \033[32mhttps://cheesecake.slack.com/archives/C03JDJ39V/p1645211881902949\033[0m\n"
