@@ -41,13 +41,13 @@ To run any setup the steps are basically the same.
 >
 > - `gjira/gjira-dependency-fix.sh`
 > - `gjira/gjira-setup.sh`
+> - `m1/terraform-provider-template-fix.sh`
 > - `mysql-env.sh`
 > - `node-env.sh`
 > - `php-env.sh`
 > - `postgres-env.sh`
 > - `python-env.sh`
 > - `shell-zsh.sh`
-> - `m1/terraform-provider-template-fix.sh`
 
 Most of the scripts aren't interactive, so they will configure everything at once. The exceptions are the `shell-zsh` and the `gjira/gjira-setup`, that ask for actions to be performed outside the terminal and ask for input data, respectively.
 
