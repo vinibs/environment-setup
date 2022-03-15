@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if ! brew ls --versions pre-commit > /dev/null; then
-    echo "\033[31mError:\033[0m Pre-commit is not installed. Exiting..."
+    echo "\033[31mError:\033[0m Pre-commit is not installed through Homebrew. Exiting..."
     exit 1
 fi
 
