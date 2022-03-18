@@ -16,9 +16,6 @@ fi
 
 PRE_COMMIT_BASE_DIR=~/.cache/pre-commit/
 
-PRE_COMMIT_PYTHON_ENV_DIR=./py_env-python/bin
-PRE_COMMIT_PYTHON_ENV_DIR_ALT=./py_env-python3/bin
-
 if ! [ -d "$PRE_COMMIT_BASE_DIR" ]; then
     echo "\033[31mError:\033[0m Pre-commit directory does not exist. Exiting..."
     exit 1
@@ -38,29 +35,37 @@ NOT_FOUND_PYTHON_ENV_DIRS=0
 TARGET_MARKUPSAFE_VERSION=2.0.1
 
 for dir in "${REPO_DIRS[@]}"; do
-    cd $dir
+    cd $PRE_COMMIT_BASE_DIR/$dir
 
-    if ! (test -d "$PRE_COMMIT_PYTHON_ENV_DIR" || test -d "$PRE_COMMIT_PYTHON_ENV_DIR_ALT"); then
+    PYTHON_ENV_DIRS=( $(file */ | grep ^py_env-python.*/ | awk -F/ '{print $1}') )
+    PYTHON_ENV_DIRS_COUNT="${#PYTHON_ENV_DIRS[@]}"
+
+    if [[ "$PYTHON_ENV_DIRS_COUNT" == "0" ]]; then
         ((NOT_FOUND_PYTHON_ENV_DIRS++))
         continue
     fi
 
-    if [ -d "$PRE_COMMIT_PYTHON_ENV_DIR_ALT" ]; then
-        PRE_COMMIT_PYTHON_ENV_DIR=$PRE_COMMIT_PYTHON_ENV_DIR_ALT
-    fi
+    for env_dir in "${PYTHON_ENV_DIRS[@]}"; do
+        BIN_DIR=$env_dir/bin
 
-    cd $PRE_COMMIT_PYTHON_ENV_DIR
-    chmod +x activate
+        if ! [ -d "$BIN_DIR" ]; then 
+            continue
+        fi
 
-    source ./activate
+        cd $BIN_DIR
 
-    CURRENT_MARKUPSAFE_VERSION=`pip show markupsafe | sed -E -n 's/Version: (.+)/\1/p'`
-    if [ $TARGET_MARKUPSAFE_VERSION != $CURRENT_MARKUPSAFE_VERSION ]; then
-        pip install markupsafe==$TARGET_MARKUPSAFE_VERSION
-    fi
-    
-    source deactivate &> /dev/null
-    cd ..
+        chmod +x activate
+
+        source ./activate
+
+        CURRENT_MARKUPSAFE_VERSION=$((pip show markupsafe | sed -E -n 's/Version: (.+)/\1/p') 2>/dev/null)
+        
+        if [[ "$CURRENT_MARKUPSAFE_VERSION" != "" && "$TARGET_MARKUPSAFE_VERSION" != "$CURRENT_MARKUPSAFE_VERSION" ]]; then
+            pip install markupsafe==$TARGET_MARKUPSAFE_VERSION &> /dev/null
+        fi
+        
+        source deactivate &> /dev/null
+    done
 done
 
 
