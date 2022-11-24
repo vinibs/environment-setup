@@ -1,22 +1,18 @@
-#!/bin/sh
+#!/bin/zsh
 
 echo "Install Oh My Zsh..."
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-chmod 755 /usr/local/share/zsh
-chmod 755 /usr/local/share/zsh/site-functions
-
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended &> /dev/null
 
 echo "\nSetup files..."
 rm -rf ./shell_setup
 mkdir ./shell_setup
 
 echo "\nDownload JetBrains Mono font (v2.242)..."
-curl -L https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip --output shell_setup/JetBrainsMono.zip
+curl -L https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip --output shell_setup/JetBrainsMono.zip &> /dev/null
 
 echo "\nExtract JetBrains font..."
 cd ./shell_setup/
-unzip JetBrainsMono.zip
+unzip JetBrainsMono.zip > /dev/null
 
 echo "\nInstall JetBrains font..."
 cp -r ./fonts/ttf/* /Library/Fonts
@@ -25,7 +21,7 @@ echo "\nNow you have to manually update your terminal font settings to JetBrains
 
 UPDATED_TERMINAM_FONT_INPUT=""
 while [ "$UPDATED_TERMINAM_FONT_INPUT" != "y" ] && [ "$UPDATED_TERMINAM_FONT_INPUT" != "Y" ]; do
-    echo "Have you finished setting up the terminal font? Y/n"
+    echo "Have you finished setting up the terminal font (Y/n)?"
     read UPDATED_TERMINAM_FONT_INPUT;
 done
 
@@ -33,11 +29,20 @@ done
 echo "\nSetup SpaceShip..."
 ZSH_PROFILE=~/.zshrc
 ZSH_CUSTOM=~/.oh-my-zsh/
-git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" &> /dev/null
 
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
 sed -i '' "s|ZSH_THEME=.*$|ZSH_THEME=\"spaceship\"|g" $ZSH_PROFILE
+
+echo "
+SPACESHIP_USER_SHOW=always
+SPACESHIP_PROMPT_ADD_NEWLINE=false
+SPACESHIP_CHAR_SYMBOL=\"❯\"
+SPACESHIP_CHAR_SUFFIX=\" \"
+
+$(cat $ZSH_PROFILE)
+" > $ZSH_PROFILE
 
 echo "
 SPACESHIP_PROMPT_ORDER=(
@@ -45,25 +50,19 @@ SPACESHIP_PROMPT_ORDER=(
   dir           # Current directory section
   host          # Hostname section
   git           # Git section (git_branch + git_status)
-  hg            # Mercurial section (hg_branch  + hg_status)
-  exec_time     # Execution time
-  line_sep      # Line break
-  vi_mode       # Vi-mode indicator
+  # exec_time     # Execution time
   jobs          # Background jobs indicator
   exit_code     # Exit code section
   char          # Prompt character
 )
-SPACESHIP_USER_SHOW=always
-SPACESHIP_PROMPT_ADD_NEWLINE=false
-SPACESHIP_CHAR_SYMBOL="❯"
-SPACESHIP_CHAR_SUFFIX=" "
 " >> $ZSH_PROFILE
 
 echo "\nInstall Plugins..."
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
-echo "zinit light zdharma/fast-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-completions" >> $ZSH_PROFILE
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting &> /dev/null
+git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions &> /dev/null
+git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions &> /dev/null
+sed -i '' "s|plugins=\(.*\)|plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-completions)|g" $ZSH_PROFILE
+
 
 
 VSCODE_SETTINGS_FILE_PATH=~/Library/Application\ Support/Code/User/settings.json
