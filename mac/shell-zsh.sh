@@ -50,6 +50,7 @@ SPACESHIP_PROMPT_ORDER=(
   dir           # Current directory section
   host          # Hostname section
   git           # Git section (git_branch + git_status)
+  venv          # Virtual Env
   # exec_time     # Execution time
   jobs          # Background jobs indicator
   exit_code     # Exit code section
@@ -61,7 +62,7 @@ echo "\nInstall Plugins..."
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting &> /dev/null
 git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions &> /dev/null
 git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions &> /dev/null
-sed -i '' "s|plugins=\(.*\)|plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-completions)|g" $ZSH_PROFILE
+sed -i '' "s|plugins=\(.*\)|plugins=(git virtualenv zsh-syntax-highlighting zsh-autosuggestions zsh-completions)|g" $ZSH_PROFILE
 
 
 
